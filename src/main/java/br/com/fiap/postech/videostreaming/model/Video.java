@@ -21,11 +21,14 @@ public class Video {
     @Id
     private UUID id;
 
-    @NotEmpty(message = "Usuário não deve estar vazio")
-    private String usuario;
+    @NotEmpty(message = "Título não deve estar vazio")
+    private String titulo;
 
-    @NotEmpty(message = "Conteúdo não deve estar vazio")
-    private String conteudo;
+    @NotEmpty(message = "Descrição não deve estar vazia")
+    private String descricao;
+
+    @NotEmpty(message = "URL não deve estar vazia")
+    private String url;
 
     @NotEmpty(message = "Data da publicação não deve estar vazia")
     private LocalDateTime dataPublicacao;
