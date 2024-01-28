@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -27,6 +28,6 @@ public class Video {
 
     private String url;
 
-    private LocalDateTime dataPublicacao;
+    private LocalDate dataPublicacao;
 
 }

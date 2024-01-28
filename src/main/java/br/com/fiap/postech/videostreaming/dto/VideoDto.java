@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -27,8 +28,8 @@ public class VideoDto {
     @NotEmpty(message = "URL não deve estar vazia")
     private String url;
 
-    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(pattern="dd-MM-yyyy")
     @NotEmpty(message = "Data da publicação não deve estar vazia")
-    private LocalDateTime dataPublicacao;
+    private LocalDate dataPublicacao;
 
 }

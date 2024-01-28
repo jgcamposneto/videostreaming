@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,6 +28,27 @@ public class VideoService {
 
     public Mono<Page<Video>> findAllVideos(Pageable pageable) {
         return videoRepository.findAllBy(pageable)
+                .collectList()
+                .zipWith(this.videoRepository.count())
+                .map(v -> new PageImpl<>(v.getT1(), pageable, v.getT2()));
+    }
+
+    public Mono<Page<Video>> findByTituloAndDataPublicacao(String titulo, LocalDate dataPublicacao, Pageable pageable) {
+        return videoRepository.findByTituloAndDataPublicacao(titulo, dataPublicacao, pageable)
+                .collectList()
+                .zipWith(this.videoRepository.count())
+                .map(v -> new PageImpl<>(v.getT1(), pageable, v.getT2()));
+    }
+
+    public Mono<Page<Video>> findByTitulo(String titulo, Pageable pageable) {
+        return videoRepository.findByTitulo(titulo, pageable)
+                .collectList()
+                .zipWith(this.videoRepository.count())
+                .map(v -> new PageImpl<>(v.getT1(), pageable, v.getT2()));
+    }
+
+    public Mono<Page<Video>> findByDataPublicacao(LocalDate dataPublicacao, Pageable pageable) {
+        return videoRepository.findByDataPublicacao(dataPublicacao, pageable)
                 .collectList()
                 .zipWith(this.videoRepository.count())
                 .map(v -> new PageImpl<>(v.getT1(), pageable, v.getT2()));
