@@ -30,4 +30,14 @@ public class Video {
 
     private LocalDate dataPublicacao;
 
+    private boolean favorito;
+
+    public void favoritar() {
+        favorito = true;
+    }
+
+    public void desfavoritar() {
+        favorito = false;
+    }
+
 }

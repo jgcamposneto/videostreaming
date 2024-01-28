@@ -73,6 +73,24 @@ public class VideoService {
         return videoRepository.deleteById(id);
     }
 
+    public Mono<Video> markAsFavorite(UUID videoId) {
+        return videoRepository.findById(videoId)
+                .map(video -> {
+                    video.favoritar();
+                    return video;
+                })
+                .flatMap(videoRepository::save);
+    }
+
+    public Mono<Video> removeFavorite(UUID videoId) {
+        return videoRepository.findById(videoId)
+                .map(video -> {
+                    video.desfavoritar();
+                    return video;
+                })
+                .flatMap(videoRepository::save);
+    }
+
     private Video convertToEntity(VideoDto videoDTO) {
         return modelMapper.map(videoDTO, Video.class);
     }

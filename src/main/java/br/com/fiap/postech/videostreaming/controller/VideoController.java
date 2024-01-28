@@ -55,8 +55,18 @@ public class VideoController {
         return videoService.update(videoDTO);
     }
 
-    @DeleteMapping("/{videoId}")
-    public void deleteVideo(@PathVariable("videoId") UUID id) {
+    @DeleteMapping("/{id}")
+    public void deleteVideo(@PathVariable("id") UUID id) {
         videoService.delete(id).subscribe();
+    }
+
+    @PostMapping("/{id}/favorite")
+    public Mono<Video> markAsFavorite(@PathVariable("id") UUID id) {
+        return videoService.markAsFavorite(id);
+    }
+
+    @DeleteMapping("/{id}/favorite")
+    public Mono<Video> removeFavorite(@PathVariable("id") UUID id) {
+        return videoService.removeFavorite(id);
     }
 }

@@ -32,4 +32,5 @@ public class VideoDto {
     @NotEmpty(message = "Data da publicação não deve estar vazia")
     private LocalDate dataPublicacao;
 
+    private boolean favorito;
 }
