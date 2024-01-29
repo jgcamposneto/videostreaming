@@ -1,5 +1,6 @@
 package br.com.fiap.postech.videostreaming.dto;
 
+import br.com.fiap.postech.videostreaming.model.Categoria;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -33,4 +34,6 @@ public class VideoDto {
     private LocalDate dataPublicacao;
 
     private boolean favorito;
+
+    private Categoria categoria;
 }

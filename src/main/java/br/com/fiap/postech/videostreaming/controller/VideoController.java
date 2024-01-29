@@ -1,6 +1,7 @@
 package br.com.fiap.postech.videostreaming.controller;
 
 import br.com.fiap.postech.videostreaming.dto.VideoDto;
+import br.com.fiap.postech.videostreaming.model.Categoria;
 import br.com.fiap.postech.videostreaming.model.Video;
 import br.com.fiap.postech.videostreaming.service.VideoService;
 import org.apache.commons.lang3.StringUtils;
@@ -31,14 +32,22 @@ public class VideoController {
                                        @RequestParam(defaultValue = "dataPublicacao") String sortField,
                                        @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection,
                                        @RequestParam(required = false) String titulo,
-                                       @RequestParam(required = false) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate dataPublicacao) {
+                                       @RequestParam(required = false) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate dataPublicacao,
+                                       @RequestParam(required = false) UUID categoriaId) {
         Pageable pageable = PageRequest.of(page, size, sortDirection, sortField);
-        if (StringUtils.isNotBlank(titulo) && dataPublicacao != null) {
-            return videoService.findByTituloAndDataPublicacao(titulo, dataPublicacao, pageable);
+
+        if (StringUtils.isNotBlank(titulo) && dataPublicacao != null && categoriaId != null) {
+            return videoService.findByTituloAndDataPublicacaoAndCategoria(titulo, dataPublicacao, categoriaId, pageable);
+        } else if (StringUtils.isNotBlank(titulo) && categoriaId != null) {
+            return videoService.findByTituloAndCategoria(titulo, categoriaId, pageable);
+        } else if (dataPublicacao != null && categoriaId != null) {
+            return videoService.findByDataPublicacaoAndCategoria(dataPublicacao, categoriaId, pageable);
         } else if (StringUtils.isNotBlank(titulo)) {
             return videoService.findByTitulo(titulo, pageable);
         } else if (dataPublicacao != null) {
             return videoService.findByDataPublicacao(dataPublicacao, pageable);
+        } else if (categoriaId != null) {
+            return videoService.findByCategoria(categoriaId, pageable);
         } else {
             return videoService.findAllVideos(pageable);
         }
@@ -68,5 +77,10 @@ public class VideoController {
     @DeleteMapping("/{id}/favorite")
     public Mono<Video> removeFavorite(@PathVariable("id") UUID id) {
         return videoService.removeFavorite(id);
+    }
+
+    @PostMapping("/categorias")
+    public Mono<Categoria> createCategoria(@RequestBody Categoria categoria) {
+        return videoService.saveCategoria(categoria);
     }
 }
